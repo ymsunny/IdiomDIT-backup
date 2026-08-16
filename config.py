@@ -192,7 +192,7 @@ if os.path.exists(_dotenv):
             _k, _v = _line.split("=", 1)
             os.environ.setdefault(_k.strip(), _v.strip().strip("'\""))
 
-API_BASE_URL = "https://api2.aigcbest.top/v1"
+API_BASE_URL = os.environ.get("OPENAI_API_BASE_URL", "https://api.openai.com/v1")
 API_KEY = os.environ.get("OPENAI_API_KEY")
 JUDGE_MODEL = "gpt-4o-mini"
 API_TIMEOUT = 60
