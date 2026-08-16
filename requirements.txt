@@ -1,0 +1,13 @@
+# No lockfile existed in the original research repo, so these are unpinned.
+# Verify against your own working environment if exact versions matter.
+
+torch
+transformers
+vllm
+openai
+pandas
+numpy
+scipy
+scikit-learn
+statsmodels
+matplotlib
