@@ -8,13 +8,13 @@ Large language models often produce literal, word-for-word translations of idiom
 
 ![IdiomDIT overview](assets/overview.png)
 
-*Left: a Literal Translation Error (LTE) occurs when a model understands an idiom but translates it word-by-word. Right: the IdiomDIT cascade evaluates Detection, Interpretation, and Translation, combining the outcomes into a diagnostic matrix that isolates know-but-error cases as LTB.*
+<p align="center"><sub>Left: a Literal Translation Error (LTE) occurs when a model understands an idiom but translates it word-by-word. Right: the IdiomDIT cascade evaluates Detection, Interpretation, and Translation, combining the outcomes into a diagnostic matrix that isolates know-but-error cases as LTB.</sub></p>
 
 Beyond this behavioral diagnosis, we ask whether LTB is encoded as a specific direction in the model's hidden states. Linear probing recovers a per-layer Literal Translation Direction (LTD) that separates know-but-error instances from know-and-correct ones, and we test whether erasing this direction during generation causally reduces LTE, compared against a matched random-direction control.
 
 ![Linear probing and directional ablation pipeline](assets/probe_ablation.png)
 
-*Linear probing and directional ablation pipeline for the Literal Translation Direction (LTD): contrastive groups are constructed from the model's hidden states (a), a per-layer probe recovers the LTD (b), and the LTD is erased from the residual stream during generation to test its causal effect on LTE (c).*
+<p align="center"><sub>Linear probing and directional ablation pipeline for the Literal Translation Direction (LTD): contrastive groups are constructed from the model's hidden states (a), a per-layer probe recovers the LTD (b), and the LTD is erased from the residual stream during generation to test its causal effect on LTE (c).</sub></p>
 
 ## Environment Setup
 
