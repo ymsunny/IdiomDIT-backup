@@ -27,7 +27,9 @@ cp .env.example .env   # fill in OPENAI_API_KEY
 
 Before running anything, in `config.py`, set `MODEL_BASE_DIR` (currently `/pretrain-models`) to wherever you keep local HF model weights, or leave translation-model names as HF hub IDs and let `transformers` resolve them.
 
-Models: Qwen3-4B, Qwen3-8B, Qwen3.5-4B, Qwen3.5-9B (behavioral + mechanistic), Llama-3.3-70B-Instruct (behavioral only). Judges: `gpt-4o-mini` for Detection/Interpretation, `gpt-5.2` for LTE.
+Models: Qwen3-4B, Qwen3-8B, Qwen3.5-4B, Qwen3.5-9B (behavioral + mechanistic), Llama-3.3-70B-Instruct (behavioral only).
+
+Judges: `gpt-4o-mini` for Detection/Interpretation, `gpt-5.2` for LTE.
 
 Everything below is run from the repo root. A few scripts use `evaluation.`-qualified imports (e.g. `from evaluation.eval_translation_lte_v4 import ...`), so put the root on `PYTHONPATH` first:
 ```bash
