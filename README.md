@@ -8,7 +8,7 @@ Large language models often produce literal, word-for-word translations of idiom
 
 ![IdiomDIT overview](assets/overview.png)
 
-<p align="center"><sub>Left: a Literal Translation Error (LTE) occurs when a model understands an idiom but translates it word-by-word. Right: the IdiomDIT cascade evaluates Detection, Interpretation, and Translation, combining the outcomes into a diagnostic matrix that isolates know-but-error cases as LTB.</sub></p>
+<p align="center">Left: a Literal Translation Error (LTE) occurs when a model understands an idiom but translates it word-by-word. Right: the IdiomDIT cascade evaluates Detection, Interpretation, and Translation, combining the outcomes into a diagnostic matrix that isolates know-but-error cases as LTB.</p>
 
 Across six language pairs and five models spanning 4B to 70B parameters, LTB persists even when a model detects the idiom and can state its meaning, and how much of the residual error traces back to LTB versus a genuine knowledge gap varies by language direction.
 
@@ -16,7 +16,7 @@ Beyond this behavioral diagnosis, we ask whether LTB is encoded as a specific di
 
 ![Linear probing and directional ablation pipeline](assets/probe_ablation.png)
 
-<p align="center"><sub>Linear probing and directional ablation pipeline for the Literal Translation Direction (LTD).</sub></p>
+<p align="center">Linear probing and directional ablation pipeline for the Literal Translation Direction (LTD).</p>
 
 ## Environment Setup
 
