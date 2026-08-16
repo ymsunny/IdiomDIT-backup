@@ -66,9 +66,9 @@ Useful overrides: `bash run_inference.sh fi-en ko-en` (subset of pairs), `MODEL=
 ```bash
 bash run_eval_detection.sh Qwen3.5-9B        # evaluation/eval_detection.py, judge=gpt-4o-mini, all 6 pairs
 bash run_eval_interpretation.sh Qwen3.5-9B   # evaluation/eval_interpretation.py, judge=gpt-4o-mini, all 6 pairs
-JUDGES=gpt-5.2 bash run_v4_eval.sh Qwen3.5-9B en-fa fa-en fr-en fi-en ja-en ko-en
+bash run_v4_eval.sh Qwen3.5-9B               # evaluation/eval_translation_lte_v4.py, judge=gpt-5.2, all 6 pairs
 ```
-Repeat all three once per model. `run_v4_eval.sh` defaults to only 4 of the 6 language pairs and to a judge list including gpt-4o-mini, so always pass all six pairs and `JUDGES=gpt-5.2` explicitly, as shown above.
+Repeat all three once per model.
 
 ### 3. Behavioral results: Findings 1–5
 
