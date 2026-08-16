@@ -1,6 +1,6 @@
 # IdiomDIT
 
-Code for **"Idioms Understood, Yet Translated Literally: Diagnosing Literal Translation Bias in Multilingual LLMs"**.
+Original implementation for **"Idioms Understood, Yet Translated Literally: Diagnosing Literal Translation Bias in Multilingual LLMs"**.
 
 ## Introduction
 
