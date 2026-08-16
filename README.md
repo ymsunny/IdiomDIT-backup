@@ -25,9 +25,7 @@ pip install -r requirements.txt
 cp .env.example .env   # fill in OPENAI_API_KEY
 ```
 
-Before running anything:
-- In `config.py`, set `MODEL_BASE_DIR` (currently `/pretrain-models`) to wherever you keep local HF model weights, or leave translation-model names as HF hub IDs and let `transformers` resolve them.
-- The judge/LLM API defaults to the official OpenAI API. Set `OPENAI_API_KEY` in `.env` (and optionally `OPENAI_API_BASE_URL` if you're using a different OpenAI-compatible endpoint).
+Before running anything, in `config.py`, set `MODEL_BASE_DIR` (currently `/pretrain-models`) to wherever you keep local HF model weights, or leave translation-model names as HF hub IDs and let `transformers` resolve them.
 
 Models: Qwen3-4B, Qwen3-8B, Qwen3.5-4B, Qwen3.5-9B (behavioral + mechanistic), Llama-3.3-70B-Instruct (behavioral only). Judges: `gpt-4o-mini` for Detection/Interpretation, `gpt-5.2` for LTE.
 
