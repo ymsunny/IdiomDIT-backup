@@ -10,11 +10,15 @@ Large language models often produce literal, word-for-word translations of idiom
 
 <p align="center"><sub>Left: a Literal Translation Error (LTE) occurs when a model understands an idiom but translates it word-by-word. Right: the IdiomDIT cascade evaluates Detection, Interpretation, and Translation, combining the outcomes into a diagnostic matrix that isolates know-but-error cases as LTB.</sub></p>
 
-Beyond this behavioral diagnosis, we ask whether LTB is encoded as a specific direction in the model's hidden states. Linear probing recovers a per-layer Literal Translation Direction (LTD) that separates know-but-error instances from know-and-correct ones, and we test whether erasing this direction during generation causally reduces LTE, compared against a matched random-direction control.
+Across six language pairs and five models spanning 4B to 70B parameters, LTB persists even when a model detects the idiom and can state its meaning, and how much of the residual error traces back to LTB versus a genuine knowledge gap varies by language direction.
+
+Beyond this behavioral diagnosis, we ask whether LTB is encoded as a specific direction in the model's hidden states. Linear probing recovers a per-layer Literal Translation Direction (LTD) that appears to separate know-but-error instances from know-and-correct ones with high accuracy, but leakage-aware controls show that most of this signal reflects the probe recognizing which idiom it is looking at rather than a genuine bias direction. Erasing the LTD during generation does reduce LTE, but no more than a matched random-direction control, so we treat this hidden-state evidence as correlational rather than causal and release these controls as a reusable protocol for such claims in machine translation.
 
 ![Linear probing and directional ablation pipeline](assets/probe_ablation.png)
 
 <p align="center"><sub>Linear probing and directional ablation pipeline for the Literal Translation Direction (LTD): contrastive groups are constructed from the model's hidden states (a), a per-layer probe recovers the LTD (b), and the LTD is erased from the residual stream during generation to test its causal effect on LTE (c).</sub></p>
+
+In place of a mechanistic account, idiom compositionality (how inferable an idiom's figurative meaning is from its component words) emerges as a significant linguistic predictor of residual LTB: less compositional idioms are more likely to be translated literally.
 
 ## Environment Setup
 
