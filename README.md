@@ -10,14 +10,6 @@ Large language models often produce literal, word-for-word translations of idiom
 
 *Left: a Literal Translation Error (LTE) occurs when a model understands an idiom but translates it word-by-word. Right: the IdiomDIT cascade evaluates Detection, Interpretation, and Translation, combining the outcomes into a diagnostic matrix that isolates know-but-error cases as LTB.*
 
-The pipeline in this repo covers four stages, matching the paper's structure:
-1. **Behavioral pipeline** — generate and judge Detection/Interpretation/Translation across six language pairs and five models, then decompose failures with the IdiomDIT cascade and four prompt-mitigation strategies.
-2. **Mechanistic pipeline** — linear-probe the model's hidden states for a "Literal Translation Direction" (LTD), test it for idiom-identity leakage, and ablate it with a matched random-direction control (Qwen3.5-9B only).
-3. **Linguistic-predictor pipeline** — score idiom compositionality with an LLM and test it as a predictor of residual LTB.
-4. **Human validation** — seed files for human annotation and the resulting agreement statistics against the LLM judge.
-
-This is a curated subset of the original research repo: it ships only what reproduces the current paper's reported numbers, not the full history of reviewer-response explorations that didn't make the final cut (see "What's not in this release" below).
-
 ## Environment Setup
 
 ```bash
@@ -129,17 +121,7 @@ python prompt_type_only_baseline.py              # Finding 6: "prompt type alone
 
 Table 3's naive (random-fold) probing numbers and Table 4's GroupKFold-by-idiom / within-idiom-permutation controls are both produced by `mechanistic/probe_ltb_by_hidden_state_balanced.py` itself (different CV-scheme flags) — see its module docstring for the exact flags per row.
 
-### 5. Linguistic predictors — Finding 9
-
-```bash
-python analysis/score_compositionality.py         # GPT-5.2 compositionality scoring (anchored + zero-shot, all idioms)
-python analysis/ltb_conditional_regression.py      # Table 6, Table 12 (LTB-conditional GEE regression)
-python analysis/linguistic_predictors_regression.py  # Table 13/14 (full-dataset sanity check)
-python analysis/plot_linguistic_predictors.py      # Figure 9
-```
-Run `score_compositionality.py` first — the regression/plotting scripts consume its cached scores.
-
-### 6. Human agreement study (Table 7)
+### 5. Human agreement study (Table 7)
 
 ```bash
 python analysis/build_di_human_eval.py                                          # Detection/Interpretation seed files
@@ -151,17 +133,3 @@ python analysis/compute_human_llm_agreement.py --lang-pair fr-en    # human-majo
 python analysis/compute_interannotator_agreement.py --lang-pairs fi-en fr-en ja-en  # inter-annotator Fleiss'/Cohen's kappa
 ```
 `build_lte_human_eval.py` needs `--lang-pair` and `--annotator` every time (default annotator pool used in the paper: `sun`, `chaoyu`, `andrew`); the paper's original Fi→En/Fr→En seed files predate this script and were hand-built the same way. `compute_human_llm_agreement.py` also needs `--lang-pair` per call; `compute_interannotator_agreement.py` defaults to `--lang-pairs fi-en fr-en` only, so pass all three explicitly if you want Ja→En included.
-
-## What's not in this release
-
-- Raw datasets, LLM judge outputs/logs, hidden-state caches, and human-annotation files (`data/`, `results/`) — regenerate via the pipeline above, or contact the authors.
-- The older GPT-4o-mini LTE judge track — the paper switched to GPT-5.2 after finding it matched human judgment substantially better (see the paper's Human Agreement Study).
-- Internal ops/monitoring scripts (progress checkers, null-result diagnostics) and abandoned exploratory analyses (embedding-based compositionality baseline, entity-count linguistic feature, TF-IDF surface-form control, DoLa-style token-divergence case study) that don't correspond to anything in the current paper text.
-
-## Citation
-
-Citation details (authors, venue, BibTeX) will be added once finalized. If you use this code, please cite:
-
-```
-Idioms Understood, Yet Translated Literally: Diagnosing Literal Translation Bias in Multilingual LLMs
-```
