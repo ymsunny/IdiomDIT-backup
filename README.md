@@ -32,8 +32,8 @@ data/{Fa,Fi,Fr,Ja,Ko}-En-Idiom/
   ParallelData/*.csv      # idiom, source sentence, gold translation
   Meaning/*_meanings.json # reference meanings (LLM-extracted)
 ```
-- **Fi/Fr/Ja/Ko**: `script/preprocessData/clean_{fi,fr,ja,ko}_en.py` fetch and clean the raw idiom datasets (Fi/Fr/Ja from Liu et al. 2023a's subtitle corpus, Ko from the KISS dataset, Choi 2020) into this schema.
-- **En-Fa**: sourced pre-cleaned from Rezaeimanesh et al. 2025; no cleaning script needed.
+- **Fi/Fr/Ja/Ko**: `script/preprocessData/clean_{fi,fr,ja,ko}_en.py` each download the raw idiom dataset directly over HTTP from its public GitHub source (Fi/Fr/Ja from Liu et al. 2023a's `nightingal3/idiom-translation` subtitle corpus, Ko from `Judy-Choi/KISS-Korean-english-Idioms-in-Sentences-dataSet`) and clean it into the schema above — no manual download needed, just run the script.
+- **En-Fa**: sourced pre-cleaned from Rezaeimanesh et al. 2025 (see the paper's references for how to obtain it); there's no auto-fetch script for this one since it arrived already cleaned.
 - **Reference meanings**: `script/preprocessData/extract_meaning.py` generates them per-idiom via an LLM (idiom + source sentence + gold translation as a semantic anchor). Spot-check a sample for faithfulness.
 
 Everything below reads/writes under `results/{lang_pair}/{model}/...`, laid out by `config.py`'s `get_config()`.
