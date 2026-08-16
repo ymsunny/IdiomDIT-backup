@@ -68,15 +68,7 @@ bash run_eval_detection.sh Qwen3.5-9B        # evaluation/eval_detection.py, jud
 bash run_eval_interpretation.sh Qwen3.5-9B   # evaluation/eval_interpretation.py, judge=gpt-4o-mini, all 6 pairs
 JUDGES=gpt-5.2 bash run_v4_eval.sh Qwen3.5-9B en-fa fa-en fr-en fi-en ja-en ko-en
 ```
-`run_eval_detection.sh`/`run_eval_interpretation.sh` each require a `MODEL` argument and run it across all 6 pairs internally. Repeat once per model (`Qwen3-4B`, `Qwen3-8B`, `Qwen3.5-4B`, `Qwen3.5-9B`, `Llama-3.3-70B-Instruct`) to cover everything Step 1 generated.
-
-`run_v4_eval.sh` (→ `evaluation/eval_translation_lte_v4.py`, output prefix `translation_lte_v4_gpt52`) is the LTE judge used for every reported number in the paper. **Its own default list of language pairs is only `en-fa fa-en ja-en ko-en`: it silently skips `fr-en` and `fi-en` unless you pass all six explicitly**, as in the command above. Also always pass `JUDGES=gpt-5.2`; the script's own default (`"gpt-5.2 gpt-4o-mini"`) additionally runs a gpt-4o-mini variant of this same v4 script that the paper doesn't use. Repeat for each of the other 4 models.
-
-If a score file for a (pair, model) already exists, `run_v4_eval.sh` automatically calls `evaluation/retry_failed_lte_v4.py` instead of re-judging from scratch. It only re-sends the rows whose judgment came back null (API failure/refusal/rate-limit), so re-running the same command is always safe and cheap.
-
-`evaluation/merge_v4_shards.py` is only needed if you parallelize a single (pair, model)'s judging across multiple shard processes yourself (e.g. splitting a large direction like Ja→En by prompt type across workers). It merges the resulting `*_shard*.json` files back into one `{prefix}_score.json`. Skip it if you just ran `run_v4_eval.sh` as shown above.
-
-`exclusion_utils.load_exclusion_set()` (used by the Sankey/cascade/prompt-mitigation scripts below) reads an optional `results/{pair}/{model}/exclusion_key.json` to skip rows with a persistently-null judgment; a missing file is treated as "nothing excluded," so there's no separate step required here.
+Repeat all three once per model. `run_v4_eval.sh` defaults to only 4 of the 6 language pairs and to a judge list including gpt-4o-mini, so always pass all six pairs and `JUDGES=gpt-5.2` explicitly, as shown above.
 
 ### 3. Behavioral results: Findings 1–5
 
