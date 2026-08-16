@@ -4,7 +4,7 @@ Original implementation for **"Idioms Understood, Yet Translated Literally: Diag
 
 ## Introduction
 
-Large language models often produce literal, word-for-word translations of idiomatic expressions even when they demonstrably understand what the idiom means. **IdiomDIT** is a cascaded diagnostic framework built around idiom **D**etection, **I**nterpretation, and idiomatic **T**ranslation, designed to isolate this failure mode, which we call *Literal Translation Bias (LTB)*.
+Large language models often produce literal, word-for-word translations of idiomatic expressions even when they demonstrably understand what the idiom means. **IdiomDIT** is a cascaded diagnostic framework built around idiom **D**etection, **I**nterpretation, and idiomatic **T**ranslation, designed to isolate this failure mode, which we call **Literal Translation Bias (LTB)**.
 
 ![IdiomDIT overview](assets/overview.png)
 
@@ -60,8 +60,6 @@ bash run_inference.sh
 Defaults to all 6 language pairs × all 5 models, loading each model once and running all three IdiomDIT stages under it (`run_all_inference.py --steps 1 2 3 --all-prompts`, one call per model). The three steps are implemented in `inference/detection.py` (step 1), `inference/Interpretation.py` (step 2, 3 rephrased probes per instance), and `inference/translate.py` (step 3, all 4 prompt types). You normally don't call these three files directly. `run_all_inference.py` orchestrates them so the model is loaded only once per run.
 
 Useful overrides: `bash run_inference.sh fi-en ko-en` (subset of pairs), `MODEL=Llama-3.3-70B-Instruct bash run_inference.sh fi-en` (single model), `MAX_SAMPLES=10 bash run_inference.sh fi-en` (smoke test).
-
-`run_interpretation_hf.sh` re-runs just the Interpretation step (`--steps 2`) on the 4 Qwen models via the HF backend. Use it only if you need to redo Interpretation specifically without touching Detection/Translation output already on disk (it skips pairs already done).
 
 ### 2. Judge the outputs
 
