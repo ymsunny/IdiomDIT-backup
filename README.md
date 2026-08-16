@@ -2,11 +2,23 @@
 
 Code for **"Idioms Understood, Yet Translated Literally: Diagnosing Literal Translation Bias in Multilingual LLMs"**.
 
-IdiomDIT is a cascaded diagnostic framework — idiom **D**etection, **I**nterpretation, and idiomatic **T**ranslation — used to isolate *Literal Translation Bias (LTB)*: cases where a model recognizes an idiom and can state its meaning, yet still translates it word-for-word.
+## Introduction
 
-This is a curated subset of the original research repo: it ships only what reproduces the current paper's reported numbers, not the full history of reviewer-response explorations that didn't make the final cut (see "What's not in this release" at the bottom).
+Large language models often produce literal, word-for-word translations of idiomatic expressions even when they demonstrably understand what the idiom means. **IdiomDIT** is a cascaded diagnostic framework — idiom **D**etection, **I**nterpretation, and idiomatic **T**ranslation — built to isolate this failure mode, which we call *Literal Translation Bias (LTB)*.
 
-## Setup
+![IdiomDIT overview](assets/overview.png)
+
+*Left: a Literal Translation Error (LTE) occurs when a model understands an idiom but translates it word-by-word. Right: the IdiomDIT cascade evaluates Detection, Interpretation, and Translation, combining the outcomes into a diagnostic matrix that isolates know-but-error cases as LTB.*
+
+The pipeline in this repo covers four stages, matching the paper's structure:
+1. **Behavioral pipeline** — generate and judge Detection/Interpretation/Translation across six language pairs and five models, then decompose failures with the IdiomDIT cascade and four prompt-mitigation strategies.
+2. **Mechanistic pipeline** — linear-probe the model's hidden states for a "Literal Translation Direction" (LTD), test it for idiom-identity leakage, and ablate it with a matched random-direction control (Qwen3.5-9B only).
+3. **Linguistic-predictor pipeline** — score idiom compositionality with an LLM and test it as a predictor of residual LTB.
+4. **Human validation** — seed files for human annotation and the resulting agreement statistics against the LLM judge.
+
+This is a curated subset of the original research repo: it ships only what reproduces the current paper's reported numbers, not the full history of reviewer-response explorations that didn't make the final cut (see "What's not in this release" below).
+
+## Environment Setup
 
 ```bash
 pip install -r requirements.txt
@@ -19,12 +31,14 @@ Before running anything, edit `config.py`:
 
 Models: Qwen3-4B, Qwen3-8B, Qwen3.5-4B, Qwen3.5-9B (behavioral + mechanistic), Llama-3.3-70B-Instruct (behavioral only). Judges: `gpt-4o-mini` for Detection/Interpretation, `gpt-5.2` for LTE.
 
-Everything below is run from the `IdiomDIT/` root. A few scripts use `evaluation.`-qualified imports (e.g. `from evaluation.eval_translation_lte_v4 import ...`), so put the root on `PYTHONPATH` first:
+Everything below is run from the repo root. A few scripts use `evaluation.`-qualified imports (e.g. `from evaluation.eval_translation_lte_v4 import ...`), so put the root on `PYTHONPATH` first:
 ```bash
 export PYTHONPATH="$PWD:$PYTHONPATH"
 ```
 
-## Data
+## Running
+
+### Data
 
 Not included in this release. Expected layout:
 ```
@@ -37,8 +51,6 @@ data/{Fa,Fi,Fr,Ja,Ko}-En-Idiom/
 - **Reference meanings**: `script/preprocessData/extract_meaning.py` generates them per-idiom via an LLM (idiom + source sentence + gold translation as a semantic anchor). Spot-check a sample for faithfulness.
 
 Everything below reads/writes under `results/{lang_pair}/{model}/...`, laid out by `config.py`'s `get_config()`.
-
-## Step-by-step reproduction
 
 ### 1. Generate model outputs (inference)
 
@@ -114,6 +126,7 @@ python analysis/plot_all_layer_probing.py        # Figure 5 (all-layer probing c
 python prompt_type_only_baseline.py              # Finding 6: "prompt type alone stays near chance" control
 ```
 `aggregate_ablation.py`'s `--ablation-name` default (`ablation_Lall_dir_ablate_allprompts`) is a leftover from an earlier naming scheme and won't match what `run_v4_gpt52_qwen9b.sh` actually wrote (`ablation_v4gpt52_*`) — always pass `--ablation-name ablation_v4gpt52` as shown. `audit_ablation_fix.py` has no "all pairs" mode; loop over the 6 pairs yourself if you want every Table 8 candidate. Add `--kind harm` to see harm cases (baseline correct → ablation LTE) instead of fixes.
+
 Table 3's naive (random-fold) probing numbers and Table 4's GroupKFold-by-idiom / within-idiom-permutation controls are both produced by `mechanistic/probe_ltb_by_hidden_state_balanced.py` itself (different CV-scheme flags) — see its module docstring for the exact flags per row.
 
 ### 5. Linguistic predictors — Finding 9
@@ -144,3 +157,11 @@ python analysis/compute_interannotator_agreement.py --lang-pairs fi-en fr-en ja-
 - Raw datasets, LLM judge outputs/logs, hidden-state caches, and human-annotation files (`data/`, `results/`) — regenerate via the pipeline above, or contact the authors.
 - The older GPT-4o-mini LTE judge track — the paper switched to GPT-5.2 after finding it matched human judgment substantially better (see the paper's Human Agreement Study).
 - Internal ops/monitoring scripts (progress checkers, null-result diagnostics) and abandoned exploratory analyses (embedding-based compositionality baseline, entity-count linguistic feature, TF-IDF surface-form control, DoLa-style token-divergence case study) that don't correspond to anything in the current paper text.
+
+## Citation
+
+Citation details (authors, venue, BibTeX) will be added once finalized. If you use this code, please cite:
+
+```
+Idioms Understood, Yet Translated Literally: Diagnosing Literal Translation Bias in Multilingual LLMs
+```
