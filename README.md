@@ -120,16 +120,3 @@ python prompt_type_only_baseline.py              # Finding 6: "prompt type alone
 `aggregate_ablation.py`'s `--ablation-name` default (`ablation_Lall_dir_ablate_allprompts`) is a leftover from an earlier naming scheme and won't match what `run_v4_gpt52_qwen9b.sh` actually wrote (`ablation_v4gpt52_*`) — always pass `--ablation-name ablation_v4gpt52` as shown. `audit_ablation_fix.py` has no "all pairs" mode; loop over the 6 pairs yourself if you want every Table 8 candidate. Add `--kind harm` to see harm cases (baseline correct → ablation LTE) instead of fixes.
 
 Table 3's naive (random-fold) probing numbers and Table 4's GroupKFold-by-idiom / within-idiom-permutation controls are both produced by `mechanistic/probe_ltb_by_hidden_state_balanced.py` itself (different CV-scheme flags) — see its module docstring for the exact flags per row.
-
-### 5. Human agreement study (Table 7)
-
-```bash
-python analysis/build_di_human_eval.py                                          # Detection/Interpretation seed files
-python analysis/build_lte_human_eval.py --lang-pair ja-en --annotator sun       # LTE seed file, one call per (pair, annotator)
-python analysis/build_lte_human_eval.py --lang-pair ja-en --annotator chaoyu
-python analysis/build_lte_human_eval.py --lang-pair ja-en --annotator andrew
-# --- annotation itself is manual, done by human annotators on the seed files above ---
-python analysis/compute_human_llm_agreement.py --lang-pair fr-en    # human-majority vs. GPT-5.2 agreement/kappa, one call per pair
-python analysis/compute_interannotator_agreement.py --lang-pairs fi-en fr-en ja-en  # inter-annotator Fleiss'/Cohen's kappa
-```
-`build_lte_human_eval.py` needs `--lang-pair` and `--annotator` every time (default annotator pool used in the paper: `sun`, `chaoyu`, `andrew`); the paper's original Fi→En/Fr→En seed files predate this script and were hand-built the same way. `compute_human_llm_agreement.py` also needs `--lang-pair` per call; `compute_interannotator_agreement.py` defaults to `--lang-pairs fi-en fr-en` only, so pass all three explicitly if you want Ja→En included.
