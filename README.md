@@ -16,9 +16,7 @@ Beyond this behavioral diagnosis, we ask whether LTB is encoded as a specific di
 
 ![Linear probing and directional ablation pipeline](assets/probe_ablation.png)
 
-<p align="center"><sub>Linear probing and directional ablation pipeline for the Literal Translation Direction (LTD): contrastive groups are constructed from the model's hidden states (a), a per-layer probe recovers the LTD (b), and the LTD is erased from the residual stream during generation to test its causal effect on LTE (c).</sub></p>
-
-In place of a mechanistic account, idiom compositionality (how inferable an idiom's figurative meaning is from its component words) emerges as a significant linguistic predictor of residual LTB: less compositional idioms are more likely to be translated literally.
+<p align="center"><sub>Linear probing and directional ablation pipeline for the Literal Translation Direction (LTD).</sub></p>
 
 ## Environment Setup
 
