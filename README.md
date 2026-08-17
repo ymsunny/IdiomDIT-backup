@@ -61,7 +61,7 @@ Defaults to all 6 language pairs × all 5 models, loading each model once and ru
 
 Useful overrides: `bash run_inference.sh fi-en ko-en` (subset of pairs), `MODEL=Llama-3.3-70B-Instruct bash run_inference.sh fi-en` (single model), `MAX_SAMPLES=10 bash run_inference.sh fi-en` (smoke test).
 
-### 2. Judge the outputs
+### 2. Evaluation
 
 ```bash
 bash run_eval_detection.sh <MODEL>        # evaluation/eval_detection.py, judge=gpt-4o-mini, all 6 pairs
@@ -70,17 +70,20 @@ bash run_v4_eval.sh <MODEL>               # evaluation/eval_translation_lte_v4.p
 ```
 `<MODEL>` is one of `Qwen3-4B`, `Qwen3-8B`, `Qwen3.5-4B`, `Qwen3.5-9B`, `Llama-3.3-70B-Instruct`; run all three commands once for each.
 
-### 3. Behavioral results: Findings 1–5
+### 3. Analysis
 
+**Behavioral analysis** (Findings 1–5), e.g.:
 ```bash
 python analysis/visualize_sankey_grid.py
-python analysis/visualize_prompt_mitigation_stacked.py
 ```
 
-### 4. Mechanistic results: Findings 6–8 (Qwen3.5-9B only)
-
-Driver scripts are in `mechanistic/`, aggregation and figure scripts in `analysis/`. For example:
+**Mechanistic analysis** (Findings 6–8, Qwen3.5-9B only), e.g.:
 ```bash
 bash mechanistic/run_v4_gpt52_qwen9b.sh
-python analysis/aggregate_ablation.py --model Qwen3.5-9B   # Table 5
+python analysis/aggregate_ablation.py --model Qwen3.5-9B
+```
+
+**Linguistic analysis** (Finding 9), e.g.:
+```bash
+python analysis/score_compositionality.py
 ```
