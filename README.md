@@ -72,18 +72,18 @@ bash run_v4_eval.sh <MODEL>               # evaluation/eval_translation_lte_v4.p
 
 ### 3. Analysis
 
-**Behavioral analysis** (Findings 1–5), e.g.:
+**Behavioral analysis** (Findings 1–5). To visualize the cascade Sankey diagram (Figure 2), run:
 ```bash
 python analysis/visualize_sankey_grid.py
 ```
 
-**Mechanistic analysis** (Findings 6–8, Qwen3.5-9B only), e.g.:
+**Mechanistic analysis** (Findings 6–8, Qwen3.5-9B only). To run the main LTD ablation and aggregate it into Table 5, run:
 ```bash
 bash mechanistic/run_v4_gpt52_qwen9b.sh
 python analysis/aggregate_ablation.py --model Qwen3.5-9B
 ```
 
-**Linguistic analysis** (Finding 9, Qwen3.5-9B only), e.g.:
+**Linguistic analysis** (Finding 9, Qwen3.5-9B only). To score idiom compositionality, run:
 ```bash
 python analysis/score_compositionality.py
 ```
