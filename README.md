@@ -2,7 +2,7 @@
 
 Original implementation for **"Idioms Understood, Yet Translated Literally: Diagnosing Literal Translation Bias in Multilingual LLMs"**.
 
-## Introduction
+## 📖 Introduction
 
 Large language models often produce literal, word-for-word translations of idiomatic expressions even when they demonstrably understand what the idiom means. **IdiomDIT** is a cascaded diagnostic framework built around idiom **D**etection, **I**nterpretation, and idiomatic **T**ranslation, designed to isolate this failure mode, which we call **Literal Translation Bias (LTB)**.
 
@@ -18,7 +18,7 @@ Beyond this behavioral diagnosis, we ask whether LTB is encoded as a specific di
 
 <p align="center">Linear probing and directional ablation pipeline for the Literal Translation Direction (LTD).</p>
 
-## Environment Setup
+## ⚙️ Environment Setup
 
 ```bash
 pip install -r requirements.txt
@@ -36,9 +36,9 @@ Everything below is run from the repo root. A few scripts use `evaluation.`-qual
 export PYTHONPATH="$PWD:$PYTHONPATH"
 ```
 
-## Running
+## ▶️ Running
 
-### Data
+### 📦 Data
 
 Not included in this release. Expected layout:
 ```
@@ -52,7 +52,7 @@ data/{Fa,Fi,Fr,Ja,Ko}-En-Idiom/
 
 Everything below reads/writes under `results/{lang_pair}/{model}/...`, laid out by `config.py`'s `get_config()`.
 
-### 1. Generate model outputs (inference)
+### 🚀 1. Generate model outputs (inference)
 
 ```bash
 bash run_inference.sh
@@ -61,7 +61,7 @@ Defaults to all 6 language pairs × all 5 models, loading each model once and ru
 
 Useful overrides: `bash run_inference.sh fi-en ko-en` (subset of pairs), `MODEL=Llama-3.3-70B-Instruct bash run_inference.sh fi-en` (single model), `MAX_SAMPLES=10 bash run_inference.sh fi-en` (smoke test).
 
-### 2. Evaluation
+### 📝 2. Evaluation
 
 ```bash
 bash run_eval_detection.sh <MODEL>        # evaluation/eval_detection.py, judge=gpt-4o-mini, all 6 pairs
@@ -70,7 +70,7 @@ bash run_v4_eval.sh <MODEL>               # evaluation/eval_translation_lte_v4.p
 ```
 `<MODEL>` is one of `Qwen3-4B`, `Qwen3-8B`, `Qwen3.5-4B`, `Qwen3.5-9B`, `Llama-3.3-70B-Instruct`; run all three commands once for each.
 
-### 3. Analysis
+### 📊 3. Analysis
 
 **Behavioral analysis** (Findings 1–5). To visualize the cascade Sankey diagram (Figure 2), run:
 ```bash
