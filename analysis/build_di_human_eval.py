@@ -7,10 +7,10 @@ I (Interpretation, any-hit): 每 idiom 一行；展示三个 probe (P2a/P2b/P2c)
 
 盲标：不含自动 judge 结果（detection_score / interpretation_score），只给模型输出 + 参考，避免带偏。
 Detection / Interpretation 是 per-idiom 的（与翻译 prompt 无关），所以每方向 = idiom 数
-（fi-en 85, fr-en 138 全量；ja-en 1188 个 idiom 太多，取样：与 lte_human_eval_ja-en_chaoyu.json
+（fi-en 85, fr-en 138 全量；ja-en 1188 个 idiom 太多，取样：与 lte_human_eval_ja-en_annotator1.json
 一致的 138 个 idiom id，保证同一批 idiom 在 LTE / Detection / Interpretation 三个人工评估任务里对齐）。
 
-每个方向额外按 3 位标注者(andrew/chaoyu/sun)各出一份独立副本,条目、顺序完全一致,
+每个方向额外按 3 位标注者各出一份独立副本,条目、顺序完全一致,
 只有 detection_human/interpretation_human/human_note 各自独立填写 —— 与
 lte_human_eval_{lp}_{annotator}.json 的多标注者模式一致。
 
@@ -26,11 +26,11 @@ ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "results" / "human_eval"
 MODEL = "Qwen3.5-9B"
 LANGS = ["fi-en", "fr-en", "ja-en"]
-ANNOTATORS = ["andrew", "chaoyu", "sun"]
+ANNOTATORS = ["annotator1", "annotator2", "annotator3"]
 
 # ja-en 的 idiom 全集太大（1188），取样对齐到 LTE 人工评估已用的 138 个 idiom id
 ID_FILTER_SOURCE = {
-    "ja-en": OUT / "lte_human_eval_ja-en_chaoyu.json",
+    "ja-en": OUT / "lte_human_eval_ja-en_annotator1.json",
 }
 
 

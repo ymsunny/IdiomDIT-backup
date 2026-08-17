@@ -2,7 +2,7 @@
 compute_human_llm_agreement.py — 人工标注 vs LLM judge 一致性分析（多标注者 + 多数投票）。
 
 对某语言对（默认 BasicPrompt）：
-  1. 各标注者(sun/chaoyu/andrew)的有效评分数 + 人工 LTE 率
+  1. 各标注者的有效评分数 + 人工 LTE 率
   2. 标注者两两 Cohen's κ（标注本身可靠性上限）
   3. 多数投票（每条取已评标注者的多数；1-1 平票跳过）作为 human ground truth
   4. 多数投票 human vs LLM judge（gpt-4o-mini / gpt-5.2）的一致率 + Cohen's κ + LTE 率
@@ -11,12 +11,12 @@ compute_human_llm_agreement.py — 人工标注 vs LLM judge 一致性分析（�
   - human: literal_check_human==1 且 meaning_check_human==0；未评(-1)跳过
   - LLM:   literal_check 以 Yes 开头 且 meaning_check 以 No 开头
 
-现状（只有 sun 评了）也能跑：多数投票退化为 sun 自己，结果即 human(sun) vs LLM。
+若只有 1 名标注者完成评分也能跑：多数投票退化为该标注者自己，结果即 human(单人) vs LLM。
 
 用法:
   python analysis/compute_human_llm_agreement.py --lang-pair fi-en --model Qwen3.5-9B
   python analysis/compute_human_llm_agreement.py --lang-pair fr-en \
-      --annotators sun chaoyu andrew --human-dir results/human_eval
+      --annotators annotator1 annotator2 annotator3 --human-dir results/human_eval
 """
 import argparse
 import json
@@ -85,7 +85,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--lang-pair", required=True)
     ap.add_argument("--model", default="Qwen3.5-9B")
-    ap.add_argument("--annotators", nargs="+", default=["sun", "chaoyu", "andrew"])
+    ap.add_argument("--annotators", nargs="+", default=["annotator1", "annotator2", "annotator3"])
     ap.add_argument("--human-dir", default="results/human_eval")
     ap.add_argument("--prompt", default="BasicPrompt",
                     help="某 prompt_type（如 BasicPrompt），或 all=跨 4 个 prompt 合并")
