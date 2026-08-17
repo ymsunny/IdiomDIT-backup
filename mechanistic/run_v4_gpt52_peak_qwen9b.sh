@@ -8,11 +8,11 @@
 #   - Judge: v4 gpt-5.2
 #   - Peak layer 取 leakage-safe grouped_cv 峰,per pair.
 #
-# 前置: v4_gpt52 pipeline 的 step0-1 已跑过(group_known_lte.json + probing_balanced_strict.json 就位).
+# 前置: 需要先跑完 v4_gpt52 pipeline 的 step0-1,确保 group_known_lte.json + probing_balanced_strict.json 就位。
 # 本脚本只跑 step2 (peak-layer ablation) + step3 (judge).
 #
 # 用法(GPU 服务器):
-#   cd /sym/IdiomDIT-LTB && git pull
+#   cd IdiomDIT-LTB && git pull
 #   bash mechanistic/run_v4_gpt52_peak_qwen9b.sh [GPU_ID]                # 一步到位
 #   SKIP_JUDGE=1 bash mechanistic/run_v4_gpt52_peak_qwen9b.sh [GPU_ID]   # 只跑生成,判审留给本地
 #

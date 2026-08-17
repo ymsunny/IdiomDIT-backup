@@ -16,11 +16,11 @@
 #   - 方向: probing_balanced_strict.json 的 direction_balanced(同 Finding 8)
 #   - Judge: v4 gpt-5.2
 #
-# 前置: v4_gpt52 pipeline 的 step0-1 已跑过(group_known_lte.json +
-#       probing_balanced_strict.json 就位;上次 peak 实验已验证)。
+# 前置: 需要先跑完 v4_gpt52 pipeline 的 step0-1,确保
+#       group_known_lte.json + probing_balanced_strict.json 就位。
 #
 # 用法(GPU 服务器):
-#   cd /sym/IdiomDIT-LTB && git pull
+#   cd IdiomDIT-LTB && git pull
 #   SKIP_JUDGE=1 nohup bash mechanistic/run_v4_gpt52_naivepeak_qwen9b.sh 0 > log_naivepeak_ltd.txt 2>&1 &
 #
 # 输出:

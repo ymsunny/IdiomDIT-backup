@@ -5,7 +5,7 @@
 #   step2  direction ablation generation            (GPU + model)
 #   step3  re-LTE the baseline+ablation generations  (API, judge = gpt-5.2)
 #
-# Run on the GPU server (g73):
+# Run on the GPU server:
 #   git pull && bash mechanistic/run_v4_gpt52_qwen9b.sh [GPU_ID]
 #
 # Outputs land in results/<pair>/Qwen3.5-9B/mechanistic/v4_gpt52/ (groups, probe, ablation)

@@ -15,7 +15,7 @@
 # 只跑某方向:
 #   PAIRS="ja-en" bash mechanistic/run_v4_gpt52_basic_judge_local.sh
 #
-# 判 baseline 已够,还没跑随机对照(还在服务器上)时:
+# 只判 LTD 主实验,跳过 random 对照:
 #   SKIP_RAND=1 bash mechanistic/run_v4_gpt52_basic_judge_local.sh
 
 set -u
@@ -81,4 +81,4 @@ for LP in $PAIRS; do
 done
 
 echo ""
-echo "==== 判审完成。用 evaluation/check_v4_failures.py --only-bad 检查 null 情况 ===="
+echo "==== 判审完成 ===="

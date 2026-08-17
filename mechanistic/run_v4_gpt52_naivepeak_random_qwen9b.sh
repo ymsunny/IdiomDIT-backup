@@ -9,7 +9,7 @@
 # 层号与 grouped-CV 峰实验互不相同 → 输出文件天然不撞名。
 #
 # 用法(GPU 服务器,单卡串行 3 seed):
-#   cd /sym/IdiomDIT-LTB && git pull
+#   cd IdiomDIT-LTB && git pull
 #   SKIP_JUDGE=1 nohup bash -c '
 #     bash mechanistic/run_v4_gpt52_naivepeak_random_qwen9b.sh 42 0 > log_naivepeak_rand_s42.txt 2>&1 &&
 #     bash mechanistic/run_v4_gpt52_naivepeak_random_qwen9b.sh 43 0 > log_naivepeak_rand_s43.txt 2>&1 &&

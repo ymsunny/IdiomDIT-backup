@@ -15,8 +15,8 @@
 #   ablation 加 --prompt-type BasicPrompt（Group A 已只含 Basic，冗余但显式）
 #   ja-en 作为 headline 方向；小方向 A_Basic<20 会跑但预期方差大，仅供附录
 #
-# 用法（在 GPU 服务器 g73 上）:
-#   cd /sym/IdiomDIT-LTB && git pull
+# 用法（在 GPU 服务器上）:
+#   cd IdiomDIT-LTB && git pull
 #   bash mechanistic/run_v4_gpt52_basic_qwen9b.sh [GPU_ID]
 #
 # 输出:

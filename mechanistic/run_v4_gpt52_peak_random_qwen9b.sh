@@ -5,7 +5,7 @@
 # 同 all-layer random control (Finding 8) 的 3 seed 设置.
 #
 # 用法(GPU 服务器,3 seed 三 GPU 并行):
-#   cd /sym/IdiomDIT-LTB && git pull
+#   cd IdiomDIT-LTB && git pull
 #   bash mechanistic/run_v4_gpt52_peak_random_qwen9b.sh 42 0 > log_peak_rand_s42.txt 2>&1 &
 #   bash mechanistic/run_v4_gpt52_peak_random_qwen9b.sh 43 1 > log_peak_rand_s43.txt 2>&1 &
 #   bash mechanistic/run_v4_gpt52_peak_random_qwen9b.sh 44 2 > log_peak_rand_s44.txt 2>&1 &

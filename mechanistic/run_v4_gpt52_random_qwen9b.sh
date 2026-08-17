@@ -8,7 +8,7 @@
 # Usage:   bash mechanistic/run_v4_gpt52_random_qwen9b.sh <SEED> <GPU_ID>
 #
 # Run 3 seeds on 3 GPUs in parallel:
-#   cd /sym/IdiomDIT-LTB && git pull
+#   cd IdiomDIT-LTB && git pull
 #   bash mechanistic/run_v4_gpt52_random_qwen9b.sh 42 0 > log_rand_s42.txt 2>&1 &
 #   bash mechanistic/run_v4_gpt52_random_qwen9b.sh 43 1 > log_rand_s43.txt 2>&1 &
 #   bash mechanistic/run_v4_gpt52_random_qwen9b.sh 44 2 > log_rand_s44.txt 2>&1 &
