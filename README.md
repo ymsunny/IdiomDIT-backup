@@ -64,11 +64,11 @@ Useful overrides: `bash run_inference.sh fi-en ko-en` (subset of pairs), `MODEL=
 ### 2. Judge the outputs
 
 ```bash
-bash run_eval_detection.sh Qwen3.5-9B        # evaluation/eval_detection.py, judge=gpt-4o-mini, all 6 pairs
-bash run_eval_interpretation.sh Qwen3.5-9B   # evaluation/eval_interpretation.py, judge=gpt-4o-mini, all 6 pairs
-bash run_v4_eval.sh Qwen3.5-9B               # evaluation/eval_translation_lte_v4.py, judge=gpt-5.2, all 6 pairs
+bash run_eval_detection.sh <MODEL>        # evaluation/eval_detection.py, judge=gpt-4o-mini, all 6 pairs
+bash run_eval_interpretation.sh <MODEL>   # evaluation/eval_interpretation.py, judge=gpt-4o-mini, all 6 pairs
+bash run_v4_eval.sh <MODEL>               # evaluation/eval_translation_lte_v4.py, judge=gpt-5.2, all 6 pairs
 ```
-Repeat all three once per model.
+`<MODEL>` is one of `Qwen3-4B`, `Qwen3-8B`, `Qwen3.5-4B`, `Qwen3.5-9B`, `Llama-3.3-70B-Instruct`; run all three commands once for each.
 
 ### 3. Behavioral results: Findings 1–5
 
