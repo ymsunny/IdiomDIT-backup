@@ -83,7 +83,7 @@ bash mechanistic/run_v4_gpt52_qwen9b.sh
 python analysis/aggregate_ablation.py --model Qwen3.5-9B
 ```
 
-**Linguistic analysis** (Finding 9), e.g.:
+**Linguistic analysis** (Finding 9, Qwen3.5-9B only), e.g.:
 ```bash
 python analysis/score_compositionality.py
 ```
