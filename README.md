@@ -79,16 +79,8 @@ python analysis/visualize_prompt_mitigation_stacked.py
 
 ### 4. Mechanistic results: Findings 6–8 (Qwen3.5-9B only)
 
-Driver scripts are in `mechanistic/`. For example, to run the main all-layer LTD ablation (Table 5) and its matched random-direction control:
+Driver scripts are in `mechanistic/`, aggregation and figure scripts in `analysis/`. For example:
 ```bash
 bash mechanistic/run_v4_gpt52_qwen9b.sh
-bash mechanistic/run_v4_gpt52_random_qwen9b.sh 42 0   # repeat for seeds 43, 44
-```
-The Basic-prompt-only, GroupCV-peak-layer, and naive-peak-layer robustness checks (Tables 9–10) follow the same `_basic_qwen9b.sh` / `_peak_qwen9b.sh` / `_naivepeak_qwen9b.sh` (+ matching `_random_*.sh`) pattern.
-
-To aggregate results into tables and figures, for example:
-```bash
 python analysis/aggregate_ablation.py --model Qwen3.5-9B   # Table 5
-python analysis/plot_ltd_geometry.py                        # Figures 6-8
 ```
-See `analysis/` for the rest.
