@@ -72,11 +72,11 @@ def _parse_yes_no(s):
 
 
 JUDGE_FILES = {
-    "legacy":   "translation_lte_score.json",          # 旧 GPT-4o-mini（默认，保持现状）
+    "legacy":   "translation_lte_score.json",          # 旧 GPT-4o-mini
     "v4":       "translation_lte_v4_score.json",        # v4 GPT-4o-mini
-    "v4-gpt52": "translation_lte_v4_gpt52_score.json",  # v4 GPT-5.2（论文 LTE 采用）
+    "v4-gpt52": "translation_lte_v4_gpt52_score.json",  # v4 GPT-5.2（论文 LTE 采用，默认）
 }
-DEFAULT_LTE_FILE = JUDGE_FILES["legacy"]
+DEFAULT_LTE_FILE = JUDGE_FILES["v4-gpt52"]
 
 
 def load_lte_eval(cfg, prompt_filter="BasicPrompt", excluded_set=None,
@@ -313,9 +313,9 @@ def main():
     parser = argparse.ArgumentParser(description="D→I→LTE Sankey 流向图")
     parser.add_argument("--lang-pair", nargs="+", required=True, choices=ALL_TARGETS)
     parser.add_argument("--model", default=MODEL_NAME)
-    parser.add_argument("--judge", default="legacy", choices=list(JUDGE_FILES),
-                        help="LTE judge 结果文件：legacy=旧GPT-4o-mini(默认,现状) / "
-                             "v4=v4 GPT-4o-mini / v4-gpt52=v4 GPT-5.2(论文采用)")
+    parser.add_argument("--judge", default="v4-gpt52", choices=list(JUDGE_FILES),
+                        help="LTE judge 结果文件：v4-gpt52=v4 GPT-5.2(论文采用,默认) / "
+                             "v4=v4 GPT-4o-mini / legacy=旧GPT-4o-mini")
     args = parser.parse_args()
     lte_filename = JUDGE_FILES[args.judge]
     print(f"[judge] {args.judge} -> {lte_filename}")

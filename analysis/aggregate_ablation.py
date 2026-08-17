@@ -31,7 +31,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from config import ALL_TARGETS
 
 BASE = Path(__file__).resolve().parent.parent
-ABL_NAME = "ablation_Lall_dir_ablate_allprompts"
+ABL_NAME = "ablation_v4gpt52"
 
 LABELS = {
     "en-fa": "En→Fa", "fa-en": "Fa→En", "fr-en": "Fr→En",

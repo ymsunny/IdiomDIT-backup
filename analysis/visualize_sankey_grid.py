@@ -152,9 +152,9 @@ def main():
                         help="输出目录（默认 figures/）")
     parser.add_argument("--layout", default="2x3", choices=list(LAYOUTS.keys()),
                         help="网格布局：2x3 全6对（默认）/ 1x3_main 前3对 / 1x3_remaining 后3对 / 3x2 大字版")
-    parser.add_argument("--judge", default="legacy", choices=list(JUDGE_FILES),
-                        help="LTE judge 结果文件：legacy=旧GPT-4o-mini(默认,现状) / "
-                             "v4=v4 GPT-4o-mini / v4-gpt52=v4 GPT-5.2(论文采用)")
+    parser.add_argument("--judge", default="v4-gpt52", choices=list(JUDGE_FILES),
+                        help="LTE judge 结果文件：v4-gpt52=v4 GPT-5.2(论文采用,默认) / "
+                             "v4=v4 GPT-4o-mini / legacy=旧GPT-4o-mini")
     parser.add_argument("--tag-judge", action="store_true",
                         help="文件名追加 judge 后缀（如 _v4gpt52），避免覆盖默认图")
     args = parser.parse_args()

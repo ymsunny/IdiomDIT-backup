@@ -73,48 +73,22 @@ bash run_v4_eval.sh <MODEL>               # evaluation/eval_translation_lte_v4.p
 ### 3. Behavioral results: Findings 1–5
 
 ```bash
-python analysis/visualize_sankey_grid.py             # Figure 2 (cascade Sankey, all 6 pairs)
-python analysis/visualize_prompt_mitigation_stacked.py  # Figure 3 (prompt-mitigation bars)
+python analysis/visualize_sankey_grid.py
+python analysis/visualize_prompt_mitigation_stacked.py
 ```
-Both default to reading the `legacy` (old-judge) score file for backward compatibility. Pass `--judge v4-gpt52` explicitly to read the paper's actual GPT-5.2 judgments, e.g. `python analysis/visualize_prompt_mitigation_stacked.py --model Qwen3.5-9B --judge v4-gpt52`.
 
 ### 4. Mechanistic results: Findings 6–8 (Qwen3.5-9B only)
 
+Driver scripts are in `mechanistic/`. For example, to run the main all-layer LTD ablation (Table 5) and its matched random-direction control:
 ```bash
-bash mechanistic/run_v4_gpt52_qwen9b.sh                      # main all-layer LTD ablation (Table 5)
-bash mechanistic/run_v4_gpt52_random_qwen9b.sh 42 0          # matched random-direction control, seed 42 on GPU 0
-bash mechanistic/run_v4_gpt52_random_qwen9b.sh 43 1          # ...seed 43 on GPU 1
-bash mechanistic/run_v4_gpt52_random_qwen9b.sh 44 2          # ...seed 44 on GPU 2 (paper's ΔLTE(rand.) = mean of these 3)
-
-bash mechanistic/run_v4_gpt52_basic_qwen9b.sh                 # Basic-prompt-only robustness check (Table 9)
-bash mechanistic/run_v4_gpt52_basic_random_qwen9b.sh 42 0     # + its own seed 42/43/44 random-direction control
-bash mechanistic/run_v4_gpt52_basic_random_qwen9b.sh 43 1
-bash mechanistic/run_v4_gpt52_basic_random_qwen9b.sh 44 2
-
-bash mechanistic/run_v4_gpt52_peak_qwen9b.sh                  # GroupCV-peak-layer robustness check (Table 10)
-bash mechanistic/run_v4_gpt52_peak_random_qwen9b.sh 42 0
-bash mechanistic/run_v4_gpt52_peak_random_qwen9b.sh 43 1
-bash mechanistic/run_v4_gpt52_peak_random_qwen9b.sh 44 2
-
-bash mechanistic/run_v4_gpt52_naivepeak_qwen9b.sh             # naive-CV-peak-layer check (Table 3's "Peak L")
-bash mechanistic/run_v4_gpt52_naivepeak_random_qwen9b.sh 42 0
-bash mechanistic/run_v4_gpt52_naivepeak_random_qwen9b.sh 43 1
-bash mechanistic/run_v4_gpt52_naivepeak_random_qwen9b.sh 44 2
+bash mechanistic/run_v4_gpt52_qwen9b.sh
+bash mechanistic/run_v4_gpt52_random_qwen9b.sh 42 0   # repeat for seeds 43, 44
 ```
-Each of the four main drivers (`_qwen9b.sh`, `_basic_qwen9b.sh`, `_peak_qwen9b.sh`, `_naivepeak_qwen9b.sh`) runs the same internal chain over all 6 language pairs: `mechanistic/extract_known_lte_groups.py` (build the know-but-error Group A / know-and-correct Group B contrast sets from the v4 judgments) → `mechanistic/probe_ltb_by_hidden_state_balanced.py` (train the per-layer linear probe, cache the recovered LTD) → `mechanistic/direction_ablation_generation.py` (ablate the LTD from the residual stream and regenerate translations) → `evaluation/eval_translation_lte_v4.py` (re-judge baseline and ablated generations with gpt-5.2). Each `_random_*.sh` companion is a **single-seed** run (`<SEED> <GPU_ID>` are required positional args, not optional) that repeats only the ablation+re-judge steps with a random direction of matched norm instead of the probed LTD. Call it three times (seeds 42/43/44, matching the paper) to reproduce the reported random-direction control. The `*_judge_local.sh` variants (not shown above) are for resuming just the local re-judging step if a GPU run finished but the judging pass got interrupted.
+The Basic-prompt-only, GroupCV-peak-layer, and naive-peak-layer robustness checks (Tables 9–10) follow the same `_basic_qwen9b.sh` / `_peak_qwen9b.sh` / `_naivepeak_qwen9b.sh` (+ matching `_random_*.sh`) pattern.
 
+To aggregate results into tables and figures, for example:
 ```bash
-python analysis/aggregate_ablation.py --model Qwen3.5-9B --ablation-name ablation_v4gpt52   # Table 5
-python analysis/aggregate_basic_only_ablation.py # Table 9 (hardcoded to Qwen3.5-9B, no flags needed)
-python analysis/aggregate_peak_ablation.py       # Table 10, GroupCV peak (same, no flags)
-python analysis/aggregate_naivepeak_ablation.py  # Table 10, naive peak (same, no flags)
-python analysis/audit_ablation_fix.py --model Qwen3.5-9B --lang-pair en-fa   # Table 8, run once per pair
-python analysis/check_ltd_cosine.py              # Finding 7 orthogonality check, Figure 6 data
-python analysis/plot_ltd_geometry.py             # Figures 6-8
-python analysis/plot_ltd_principal_angles.py     # LTD subspace robustness (Appendix)
-python analysis/plot_all_layer_probing.py        # Figure 5 (all-layer probing curve)
-python prompt_type_only_baseline.py              # Finding 6: "prompt type alone stays near chance" control
+python analysis/aggregate_ablation.py --model Qwen3.5-9B   # Table 5
+python analysis/plot_ltd_geometry.py                        # Figures 6-8
 ```
-`aggregate_ablation.py`'s `--ablation-name` default (`ablation_Lall_dir_ablate_allprompts`) is a leftover from an earlier naming scheme and won't match what `run_v4_gpt52_qwen9b.sh` actually wrote (`ablation_v4gpt52_*`). Always pass `--ablation-name ablation_v4gpt52` as shown. `audit_ablation_fix.py` has no "all pairs" mode; loop over the 6 pairs yourself if you want every Table 8 candidate. Add `--kind harm` to see harm cases (baseline correct → ablation LTE) instead of fixes.
-
-Table 3's naive (random-fold) probing numbers and Table 4's GroupKFold-by-idiom / within-idiom-permutation controls are both produced by `mechanistic/probe_ltb_by_hidden_state_balanced.py` itself (different CV-scheme flags). See its module docstring for the exact flags per row.
+See `analysis/` for the rest.
