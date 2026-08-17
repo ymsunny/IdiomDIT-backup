@@ -10,7 +10,6 @@ compute_interannotator_agreement.py — 人工标注者之间的内部一致性�
 对每个语言对 × 每个维度(literal / meaning / LTE) 报告:
   - 两两 Cohen's κ + 一致率（各对取双方都评过的交集）
   - 三人 Fleiss' κ + 全体一致率（仅取三人都评过的条目，固定 3 个 rater）
-注意: 若某标注者只评了 BasicPrompt 子集，三人 Fleiss 的 n 会小于其余两人两两的 n。
 
 用法:
   python analysis/compute_interannotator_agreement.py            # fi-en + fr-en

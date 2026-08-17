@@ -11,8 +11,6 @@ compute_human_llm_agreement.py — 人工标注 vs LLM judge 一致性分析（�
   - human: literal_check_human==1 且 meaning_check_human==0；未评(-1)跳过
   - LLM:   literal_check 以 Yes 开头 且 meaning_check 以 No 开头
 
-若只有 1 名标注者完成评分也能跑：多数投票退化为该标注者自己，结果即 human(单人) vs LLM。
-
 用法:
   python analysis/compute_human_llm_agreement.py --lang-pair fi-en --model Qwen3.5-9B
   python analysis/compute_human_llm_agreement.py --lang-pair fr-en \

@@ -13,14 +13,11 @@
 可直接送标注者;完成后走 analysis/compute_human_llm_agreement.py 算 κ。
 
 用法:
-  # Ja→En 138 idioms(对齐 fr-en scale)、通用 annotator 名(TBD)、GPT-5.2 生成 gloss
-  python analysis/build_lte_human_eval.py --lang-pair ja-en --n-idioms 138 --annotator TBD
+  # Ja→En 138 idioms(对齐 fr-en scale)、GPT-5.2 生成 gloss
+  python analysis/build_lte_human_eval.py --lang-pair ja-en --n-idioms 138 --annotator annotator1
 
   # 不调 API 先看采样对不对(dry run,gloss 留空)
-  python analysis/build_lte_human_eval.py --lang-pair ja-en --n-idioms 138 --annotator TBD --skip-gloss
-
-  # 之后指定实际标注者(会覆盖同名文件)
-  python analysis/build_lte_human_eval.py --lang-pair ja-en --n-idioms 138 --annotator annotator1
+  python analysis/build_lte_human_eval.py --lang-pair ja-en --n-idioms 138 --annotator annotator1 --skip-gloss
 """
 import os, sys, io, json, time, random, argparse
 from pathlib import Path
@@ -110,7 +107,7 @@ def main():
     ap.add_argument("--n-idioms", type=int, default=138,
                     help="采样多少 idioms(默认 138 对齐 fr-en)")
     ap.add_argument("--annotator", required=True,
-                    help="标注者标签(如 annotator1 / annotator2 / annotator3 / TBD);写进输出文件名")
+                    help="标注者标签(如 annotator1 / annotator2 / annotator3);写进输出文件名")
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--skip-gloss", action="store_true",
                     help="不调 GPT-5.2 API 生成 literal_translation,全部留空(dry run)")
